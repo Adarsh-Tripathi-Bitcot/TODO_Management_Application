@@ -1,0 +1,13 @@
+virtualenv
+fastapi
+sqlalchemy
+alembic
+psycopg2-binary
+pydantic
+pyjwt
+bcrypt
+python-dotenv
+pytest
+pytest-cov
+black
+ruff
