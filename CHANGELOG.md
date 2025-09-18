@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- **Step-2 Implementation:**  
+  - Created `feat/step2` branch with full project setup under `TODO_Management_Application/`.
+  - Added `docs/step2` covering project setup, AIQA workflows, project structure, and data modelling.
+  - Established `src/` folder with layered architecture directories (`routers`, `services`, `repositories`, `models`, `schemas`, `utils`).
+  - Initialized Alembic migrations with `env.py` and `script.py.mako`.
+  - Added test scaffolding under `tests/`.
+
+### Notes
+- The repository now forms a solid backbone for Step-3 — API implementation and testing.
+
+
 ### Added
 - **Project Planning Document** outlining architecture, scope, features, technology stack, and system design for the TODO Management Application.
 - **Project skeleton and configuration files:**
