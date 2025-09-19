@@ -1,11 +1,19 @@
-from fastapi import APIRouter, HTTPException
+# src/routers/auth.py
+from fastapi import APIRouter, Depends, status
+from src.services.auth import register_user, login_user
+from src.schemas.user import UserCreate, UserOut, UserLogin
+from sqlalchemy.orm import Session
+from src.dependencies import get_db
 
 router = APIRouter()
 
-@router.post("/register")
-async def register():
-    raise HTTPException(status_code=501, detail="To be implemented in Step 3")
+@router.post("/register", response_model=UserOut, status_code=status.HTTP_201_CREATED)
+def register(user: UserCreate, db: Session = Depends(get_db)):
+    """Register a new user and return the user's ID and success message."""
+    return register_user(user, db)
 
-@router.post("/login")
-async def login():
-    raise HTTPException(status_code=501, detail="To be implemented in Step 3")
+@router.post("/login", response_model=dict)
+def login(user: UserLogin, db: Session = Depends(get_db)):
+    """Login a user and return a JWT token."""
+    return login_user(user, db)
+    

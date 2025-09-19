@@ -11,3 +11,9 @@ pytest
 pytest-cov
 black
 ruff
+psycopg2
+pydantic-settings
+uvicorn
+passlib
+python-jose
+pydantic[email]
