@@ -1,23 +1,23 @@
-from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
-from jose import JWTError, jwt
-from app.schemas.user import TokenData
-from app.config import settings
+# src/dependencies.py
+from sqlalchemy import create_engine
+from sqlalchemy.orm import declarative_base, sessionmaker, Session
+from fastapi import Depends
+from src.config import DATABASE_URL
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+# Database connection and session setup
+engine = create_engine(DATABASE_URL)  # type: ignore
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base = declarative_base()
 
-async def get_current_user(token: str = Depends(oauth2_scheme)):
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
+def get_db() -> Session:
+    """
+    Dependency to get the database session.
+    
+    Yields:
+        Session: A SQLAlchemy session object to interact with the database.
+    """
+    db = SessionLocal()
     try:
-        payload = jwt.decode(token, settings.secret_key, algorithms=[settings.jwt_algorithm])
-        email: str = payload.get("sub")
-        if email is None:
-            raise credentials_exception
-        token_data = TokenData(email=email)
-    except JWTError:
-        raise credentials_exception
-    return token_data
+        yield db
+    finally:
+        db.close()

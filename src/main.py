@@ -1,11 +1,17 @@
 from fastapi import FastAPI
-from app.routers import auth, todos
+from src.routers import auth
 
-app = FastAPI(title="TODO Management Application", version="1.0.0")
+app = FastAPI(title="TODO Management API", version="1.0.0")
 
-app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
-app.include_router(todos.router, prefix="/todos", tags=["TODOs"])
+# Including the authentication routes
+app.include_router(auth.router, prefix="/auth", tags=["auth"])
 
 @app.get("/")
-async def root():
-    return {"message": "TODO Management API"}
+def read_root() -> dict:
+    """
+    Root endpoint that returns a welcome message.
+
+    Returns:
+        dict: A dictionary with a welcome message.
+    """
+    return {"message": "Welcome to TODO Management API"}
